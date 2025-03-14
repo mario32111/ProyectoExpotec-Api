@@ -1,12 +1,12 @@
 const express = require('express');
 
-const exampleRouter = require('./example.router');
+const questioneRouter = require('./question.router');
 
 
 function routerApi (app){
   const router = express.Router();
   app.use('/api/v1', router)
-  router.use('/example', exampleRouter);
+  router.use('/question', questioneRouter);
 
 
 }

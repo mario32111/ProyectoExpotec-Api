@@ -24,7 +24,12 @@ const OptionSchema = {
   text: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
+  },
+  isCorrect: {
+    field: 'is_correct',
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    defaultValue: false, // Valor por defecto para el campo
   },
 };
 

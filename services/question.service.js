@@ -4,10 +4,15 @@ const { models } = require('../libs/sequelize');
 class QuestionService {
   // Obtener todas las preguntas
   async find() {
-    const questions = await models.Question.findAll({
-      include: ['category', 'options'],
-    });
-    return questions;
+    try {
+      const questions = await models.Question.findAll({
+        include: ['category', 'options'],
+      });
+      return questions;
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      throw new Error('Error al obtener las preguntas');
+    }
   }
 
   // Crear una nueva pregunta
@@ -39,6 +44,22 @@ class QuestionService {
     const question = await this.findOne(id);
     await question.destroy();
     return { id };
+  }
+  async findByCategory(categoryId) {
+    try {
+      const questionsInCategory = await models.Question.findAll({
+        where: { categoryId }, // Filtra por categoría
+        include: ['category', 'options'], // Incluye relaciones si es necesario
+      });
+
+      if (questionsInCategory.length === 0) {
+        throw new Error(`No se encontraron preguntas para la categoría ${categoryId}`);
+      }
+
+      return questionsInCategory;
+    } catch (error) {
+      throw new Error(`Error al buscar preguntas por categoría: ${error.message}`);
+    }
   }
 }
 

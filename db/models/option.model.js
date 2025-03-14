@@ -26,7 +26,7 @@ const OptionSchema = {
     type: DataTypes.STRING,
   },
   isCorrect: {
-    field: 'is_correct',
+    field: 'isCorrect',
     allowNull: false,
     type: DataTypes.BOOLEAN,
     defaultValue: false, // Valor por defecto para el campo

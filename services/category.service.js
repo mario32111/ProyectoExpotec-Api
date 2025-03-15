@@ -2,12 +2,10 @@ const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
 class CategoryService {
-  // ... (otros métodos)
-
   async incrementUsersQuantity(id) {
     const category = await this.findOne(id);
     if (!category) {
-      throw boom.notFound('Category not found');
+      throw boom.notFound('Categoría no encontrada');
     }
     category.usersQuantity += 1;
     await category.save();
@@ -17,22 +15,20 @@ class CategoryService {
   async findOne(id) {
     const category = await models.Category.findByPk(id);
     if (!category) {
-      throw boom.notFound('Category not found');
+      throw boom.notFound('Categoría no encontrada');
     }
     return category;
   }
 
   async getUsersQuantityByCategory() {
     try {
-      const categories = await models.Category.findAll({
-        attributes: ['id', 'name', 'usersQuantity'], // Selecciona solo los atributos necesarios
+      return await models.Category.findAll({
+        attributes: ['id', 'name', 'usersQuantity'],
       });
-      return categories;
     } catch (error) {
-      throw boom.internal('Error al obtener la cantidad de usuarios por categoría');
+      throw boom.internal('Error al obtener las categorías');
     }
   }
-
 }
 
 module.exports = CategoryService;

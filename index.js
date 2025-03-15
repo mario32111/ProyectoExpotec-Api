@@ -16,7 +16,11 @@ const io = socketIo(server, {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://pagina-expotec.onrender.com',  // Reemplaza con tu dominio
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],  // Agrega 'PATCH' aquí
+  allowedHeaders: ['Content-Type', 'Authorization']  // Encabezados permitidos
+}));
 
 // Middleware para compartir `io` con los routers
 app.use((req, res, next) => {

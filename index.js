@@ -16,12 +16,17 @@ const io = socketIo(server, {
 });
 
 app.use(express.json());
-app.use(cors({
-  origin: 'https://pagina-expotec.onrender.com',  // Reemplaza con tu dominio
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],  // Agrega 'PATCH' aquí
-  allowedHeaders: ['Content-Type', 'Authorization']  // Encabezados permitidos
-}));
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    cors({
+      origin: 'https://pagina-expotec.onrender.com', // Cambia esto por tu dominio
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
+} else {
+  app.use(cors()); // En desarrollo, permite todos los orígenes
+}
 // Middleware para compartir `io` con los routers
 app.use((req, res, next) => {
   req.io = io;
